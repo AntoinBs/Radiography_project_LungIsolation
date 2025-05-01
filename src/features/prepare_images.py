@@ -30,12 +30,12 @@ if __name__ == "__main__":
     metadata['MASK_URL'] = ''
     parent_dir = r".\data\raw"
 
-    for index, (image_name, pathology) in enumerate(zip(metadata['FILE NAME'], metadata['PATHOLOGY'])):
+    for index, image_name in enumerate(metadata['FILE NAME']):
         for folder in ["images", "masks"]:
             image_folder = image_name.split("-")[0] # get the folder name
             raw_path = os.path.join(parent_dir, image_folder, folder, image_name+".png") # construct the path
-            output_folder = os.path.join(r".\data\processed", pathology, folder) # make the output folder
-            new_file_name = pathology + '-' + image_name.split("-")[1] + ".png"
+            output_folder = os.path.join(r".\data\processed", folder) # make the output folder
+            new_file_name = folder[:-1] + '-' + str(index) + ".png"
             processed_path = os.path.join(output_folder, new_file_name) # construct the output path
             if not os.path.exists(output_folder):
                 # create the output folder if it doesn't exist
@@ -47,8 +47,6 @@ if __name__ == "__main__":
             else:
                 prepare_image(raw_path, processed_path, resize=(299, 299))
                 metadata.loc[index, "MASK_URL"] = processed_path # add the mask URL in the metadata
-
-            metadata.loc[index, "FILE NAME"] = new_file_name.split(".")[0] # update the file name in the metadata
     
     metadata_output = r".\data\processed\metadata.csv"
     metadata.to_csv(metadata_output, index=False) # save the metadata

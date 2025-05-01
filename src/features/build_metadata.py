@@ -27,14 +27,12 @@ def build_metadata(path: str) -> pd.DataFrame:
             file_path = os.path.join(path, file)
             metadata = pd.read_excel(file_path)
 
-            # Add pathology name to metadata
-            metadata['PATHOLOGY'] = pathology
-
             # Extract metadata (e.g., filename, duration, etc.)
             df = pd.concat([df, metadata], ignore_index=True, axis=0)
     
     # Correct size of the images
     df['SIZE'] = "299*299"
+    df.drop(columns=['URL'], inplace=True) # drop the URL column
 
     return df
 
