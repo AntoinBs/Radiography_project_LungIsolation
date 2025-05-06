@@ -42,10 +42,10 @@ if __name__ == "__main__":
                 os.makedirs(output_folder)
 
             if folder == "images":
-                prepare_image(raw_path, processed_path)
+                prepare_image(raw_path, processed_path, resize=(256, 256))
                 metadata.loc[index, "IMAGE_URL"] = processed_path # add the image URL in the metadata
             else:
-                prepare_image(raw_path, processed_path, resize=(299, 299))
+                prepare_image(raw_path, processed_path, resize=(256, 256))
                 metadata.loc[index, "MASK_URL"] = processed_path # add the mask URL in the metadata
     
     metadata_output = r".\data\processed\metadata.csv"

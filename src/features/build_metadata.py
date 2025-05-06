@@ -30,8 +30,6 @@ def build_metadata(path: str) -> pd.DataFrame:
             # Extract metadata (e.g., filename, duration, etc.)
             df = pd.concat([df, metadata], ignore_index=True, axis=0)
     
-    # Correct size of the images
-    df['SIZE'] = "299*299"
     df.drop(columns=['URL'], inplace=True) # drop the URL column
 
     return df

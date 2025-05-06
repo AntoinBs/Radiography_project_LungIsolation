@@ -8,3 +8,7 @@ and unzip all the files in ./data/raw (from the project root)
 4) python src\features\build_metadata.py
 
 5) python src\features\prepare_images.py
+
+
+Annexes:
+- Olaf Ronneberger, Philipp Fischer et Thomas Brox (18 May 2015). *U-Net: Convolutional Networks for Biomedical Image Segmentation* : https://arxiv.org/abs/1505.04597v1
