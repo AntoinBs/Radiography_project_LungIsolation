@@ -21,11 +21,15 @@ def build_metadata(path: str) -> pd.DataFrame:
     # Iterate through each file and extract metadata
     for file in files:
         if file.endswith('.xlsx'):
-            pathology = file.split('.')[0].upper().replace(' ', '_') # get pathology name
+            #pathology = file.split('.')[0].upper().replace(' ', '_') # get pathology name
 
             # Read the metadata file
             file_path = os.path.join(path, file)
             metadata = pd.read_excel(file_path)
+
+            if file.split('.')[0] == "Normal":
+                # Add a column for the URL
+                metadata['FILE NAME'] = metadata['FILE NAME'].apply(lambda x: 'Normal' + '-' + x.split('-')[1])
 
             # Extract metadata (e.g., filename, duration, etc.)
             df = pd.concat([df, metadata], ignore_index=True, axis=0)

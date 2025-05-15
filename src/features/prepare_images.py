@@ -25,16 +25,16 @@ def prepare_image(image_path:str, output_path:str, resize:tuple=None) -> None:
 
 if __name__ == "__main__":
     # Read the metadata file
-    metadata = pd.read_csv(r".\data\raw\metadata.csv")
+    metadata = pd.read_csv(r"./data/raw/metadata.csv")
     metadata['IMAGE_URL'] = ''
     metadata['MASK_URL'] = ''
-    parent_dir = r".\data\raw"
+    parent_dir = r"./data/raw"
 
     for index, image_name in enumerate(metadata['FILE NAME']):
         for folder in ["images", "masks"]:
             image_folder = image_name.split("-")[0] # get the folder name
             raw_path = os.path.join(parent_dir, image_folder, folder, image_name+".png") # construct the path
-            output_folder = os.path.join(r".\data\processed", folder) # make the output folder
+            output_folder = os.path.join(r"./data/processed", folder) # make the output folder
             new_file_name = folder[:-1] + '-' + str(index) + ".png"
             processed_path = os.path.join(output_folder, new_file_name) # construct the output path
             if not os.path.exists(output_folder):
@@ -48,5 +48,5 @@ if __name__ == "__main__":
                 prepare_image(raw_path, processed_path, resize=(256, 256))
                 metadata.loc[index, "MASK_URL"] = processed_path # add the mask URL in the metadata
     
-    metadata_output = r".\data\processed\metadata.csv"
+    metadata_output = r"./data/processed/metadata.csv"
     metadata.to_csv(metadata_output, index=False) # save the metadata
