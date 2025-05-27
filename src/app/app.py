@@ -221,3 +221,22 @@ async def get_raw_image(session_id: str):
     except Exception as e:
         return {"error": str(e)}
     
+@app.delete("/session/{session_id}")
+async def delete_session(session_id: str):
+    """
+    Delete a session and its associated data.
+    """
+    try:
+        if session_id in image_for_seg_store:
+            del image_for_seg_store[session_id]
+        if session_id in image_for_class_store:
+            del image_for_class_store[session_id]
+        if session_id in predictions_store:
+            del predictions_store[session_id]
+        if session_id in image_masked_rgb_store:
+            del image_masked_rgb_store[session_id]
+
+        return {"status": "Session deleted successfully"}
+
+    except Exception as e:
+        return {"error": str(e)}
