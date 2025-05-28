@@ -178,8 +178,6 @@ async def get_classification_result(session_id: str):
         else:
             gradcam = cv2.cvtColor(image[0, :, :, 0].numpy(), cv2.COLOR_GRAY2RGB)  # Convert to RGB if NORMAL
             gradcam = np.expand_dims(gradcam, axis=0)  # Add batch dimension
-            
-        print(f"Gradcam shape: {gradcam.shape}, type: {gradcam.dtype}, object type: {type(gradcam)}")
 
         gradcam = np.squeeze(gradcam, axis=0) * 255 # Remove batch dimension and scale to [0, 255]
         gradcam = gradcam.astype(np.uint8)  # Convert to uint8
