@@ -1,5 +1,13 @@
 FROM python:3.9-slim
 
+RUN yum install -y \
+    mesa-libGL \
+    glib2 \
+    libSM \
+    libXext \
+    libXrender \
+    && yum clean all
+    
 WORKDIR /app
 
 COPY requirements.txt .
