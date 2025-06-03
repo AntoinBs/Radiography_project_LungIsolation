@@ -1,6 +1,7 @@
 import numpy as np
 from fastapi import FastAPI, File, UploadFile
 from fastapi.responses import StreamingResponse
+from fastapi.middleware.cors import CORSMiddleware
 
 from io import BytesIO
 import uuid
@@ -31,6 +32,14 @@ class_names = ['COVID', 'LUNG_OPACITY', 'NORMAL', 'VIRAL_PNEUMONIA'] # Class nam
 
 app = FastAPI() # Create FastAPI app instance
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # En production, remplace par ton domaine
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 @app.get("/")
 def read_root():
     return {"message": "Welcome to the Lung Pathology Classification API"}
@@ -59,7 +68,7 @@ async def upload_and_preprocess_image(file: UploadFile = File(...)):
     except Exception as e:
         return {"error": str(e)}
 
-@app.post("/predict/segmentation/")
+@app.post("/predict/segmentation/{session_id}")
 async def predict_segmentation(session_id: str):
     """
     Predict segmentation mask for the uploaded image using the session ID.
@@ -85,7 +94,7 @@ async def predict_segmentation(session_id: str):
     except Exception as e:
         return {"error": str(e)}
     
-@app.post("/predict/classification/")
+@app.post("/predict/classification/{session_id}")
 async def predict_classification(session_id: str):
     """
     Predict the pathology for the segmented image.
