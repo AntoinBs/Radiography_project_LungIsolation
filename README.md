@@ -1,3 +1,5 @@
+In matter to self-train the model, you can frok this project and follow the next steps:
+
 1) Download dataset folder on Kaggle : https://www.kaggle.com/tawsifurrahman/covid19-radiography-database
 and unzip all the files in ./data/raw (from the project root)
 
