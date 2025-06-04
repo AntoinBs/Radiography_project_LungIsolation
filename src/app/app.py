@@ -1,5 +1,5 @@
 import numpy as np
-from fastapi import FastAPI, File, UploadFile
+from fastapi import FastAPI, File, UploadFile, HTTPException, Request
 from fastapi.responses import StreamingResponse
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -40,6 +40,46 @@ ALLOWED_ORIGINS = [
     "http://s3-website-lung.s3.eu-west-3.amazonaws.com",
     "http://s3-website-lung.s3-website.eu-west-3.amazonaws.com"
 ]
+
+@app.middleware("http")
+async def check_referer(request: Request, call_next):
+    
+    referer = request.headers.get("referer")
+    origin = request.headers.get("origin")
+    
+    # Vérifier si la requête vient d'un domaine autorisé
+    is_authorized = False
+    for allowed_origin in ALLOWED_ORIGINS:
+        if (referer and referer.startswith(allowed_origin)) or \
+           (origin and origin == allowed_origin):
+            is_authorized = True
+            break
+    
+    if not is_authorized:
+        raise HTTPException(status_code=403, detail="Access forbidden")
+    
+    response = await call_next(request)
+    return response
+
+@app.middleware("https")
+async def check_referer(request: Request, call_next):
+    
+    referer = request.headers.get("referer")
+    origin = request.headers.get("origin")
+    
+    # Vérifier si la requête vient d'un domaine autorisé
+    is_authorized = False
+    for allowed_origin in ALLOWED_ORIGINS:
+        if (referer and referer.startswith(allowed_origin)) or \
+           (origin and origin == allowed_origin):
+            is_authorized = True
+            break
+    
+    if not is_authorized:
+        raise HTTPException(status_code=403, detail="Access forbidden")
+    
+    response = await call_next(request)
+    return response
 
 app.add_middleware(
     CORSMiddleware,
