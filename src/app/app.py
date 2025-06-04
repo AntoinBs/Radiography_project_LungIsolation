@@ -33,12 +33,8 @@ class_names = ['COVID', 'LUNG_OPACITY', 'NORMAL', 'VIRAL_PNEUMONIA'] # Class nam
 app = FastAPI() # Create FastAPI app instance
 
 ALLOWED_ORIGINS = [
-    "https://s3-website-lung.s3.amazonaws.com",
-    "https://s3-website-lung.s3.eu-west-3.amazonaws.com",
-    "https://s3-website-lung.s3-website.eu-west-3.amazonaws.com",
-    "http://s3-website-lung.s3.amazonaws.com",
-    "http://s3-website-lung.s3.eu-west-3.amazonaws.com",
-    "http://s3-website-lung.s3-website.eu-west-3.amazonaws.com"
+    "http://lungdx.fr",
+    "https://lungdx.fr"
 ]
 
 @app.middleware("http")
