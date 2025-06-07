@@ -34,7 +34,11 @@ app = FastAPI() # Create FastAPI app instance
 
 ALLOWED_ORIGINS = [
     "http://lungdx.fr",
-    "https://lungdx.fr"
+    "https://lungdx.fr",
+    "http://lungdx.fr.s3.eu-west-3.amazonaws.com",
+    "https://lungdx.fr.s3.eu-west-3.amazonaws.com",
+    "http://lungdx.fr.s3-website.eu-west-3.amazonaws.com",
+    "https://lungdx.fr.s3-website.eu-west-3.amazonaws.com"
 ]
 
 @app.middleware("http")
